@@ -15,6 +15,7 @@ import { HitsProducer } from './hits.producer';
     }),
   ],
   controllers: [UrlController],
-  providers: [UrlService, HitsConsumer, HitsProducer]
+  providers: [UrlService, HitsConsumer, HitsProducer],
+  exports: [UrlService],
 })
 export class UrlModule { }
