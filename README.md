@@ -31,6 +31,12 @@
 ```bash
 $ npm install
 ```
+```bash
+$ cp .env.example .env
+```
+```bash
+$ make migrate
+```
 
 ## Running the app
 
@@ -38,11 +44,15 @@ $ npm install
 # development
 $ npm run start
 
+# development
+$ make start
+
 # watch mode
 $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
 ```
 
 ## Test
