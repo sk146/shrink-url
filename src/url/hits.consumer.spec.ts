@@ -21,6 +21,13 @@ describe('HitsConsumer', () => {
                     provide: PrismaService,
                     useValue: mockPrismaService
                 },
+                {
+                    provide: 'Logger',
+                    useValue: {
+                        info: jest.fn(),
+                        error: jest.fn()
+                    }
+                },
             ],
         }).compile();
 

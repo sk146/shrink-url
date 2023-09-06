@@ -20,6 +20,13 @@ describe('UrlController', () => {
           provide: UrlService,
           useValue: mockUrlService,
         },
+        {
+          provide: 'Logger',
+          useValue: {
+              info: jest.fn(),
+              error: jest.fn()
+          }
+      },
       ],
     }).compile();
 

@@ -22,6 +22,13 @@ describe('HitsProducer', () => {
           provide: 'BullQueue_hits',
           useValue: mockHitsQueue,
         },
+        {
+          provide: 'Logger',
+          useValue: {
+              info: jest.fn(),
+              error: jest.fn()
+          }
+      },
       ],
     }).compile();
 

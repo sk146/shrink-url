@@ -54,6 +54,13 @@ describe('UrlService', () => {
           provide: HitsProducer,
           useValue: mockHitsProducer,
         },
+        {
+          provide: 'Logger',
+          useValue: {
+              info: jest.fn(),
+              error: jest.fn()
+          }
+      },
       ],
     }).compile();
 

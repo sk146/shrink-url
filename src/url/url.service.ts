@@ -1,18 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { PrismaService } from 'src/core/prisma.service';
 import { RedisService } from 'src/core/redis.service';
 import { HitsProducer } from './hits.producer';
+import { Logger } from 'winston';
 
 @Injectable()
 export class UrlService {
-
     constructor(
         private readonly prisma: PrismaService,
         private readonly redisService: RedisService,
         private readonly configService: ConfigService,
         private readonly hitsProducer: HitsProducer,
+        @Inject('Logger') private readonly logger: Logger
     ) {}
 
     async createShortUrl(originalUrl: string): Promise<string> {
@@ -27,7 +28,10 @@ export class UrlService {
 
         await this.redisService.getClient().set(shortUrl, originalUrl);
 
-        return `${this.configService.get<string>('BASE_URL')}/${shortUrl}`;
+        const fullUrl = `${this.configService.get<string>('BASE_URL')}/${shortUrl}`;
+        this.logger.info(`Created short URL for ${originalUrl}: ${fullUrl}`);
+
+        return fullUrl;
     }
 
     async getOriginalUrl(shortUrl: string): Promise<string> {
@@ -48,6 +52,9 @@ export class UrlService {
         }
 
         this.hitsProducer.addHit(shortUrl);
+
+        this.logger.info(`Redirected short URL ${shortUrl} to ${originalUrl}`);
+
         return originalUrl;
     }
 
